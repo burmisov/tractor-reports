@@ -5,6 +5,8 @@ const debug = require('debug')('tr:updateReports.js');
 
 export default async function updateReports() {
   debug('running updateReports');
+  let newReportCount;
+
   try {
     const today = getCurrentDate();
     const dbDay = await getCurrentDbDate();
@@ -16,7 +18,7 @@ export default async function updateReports() {
     }
     const processedMailIds = await getProcessedMailIds();
     debug('got %s processed mail ids', processedMailIds.length);
-    const newReportCount = await getNewReports(processedMailIds);
+    newReportCount = await getNewReports(processedMailIds);
   } catch (e) {
     throw e;
   }
@@ -29,7 +31,7 @@ async function getCurrentDbDate() {
     db.status.findOne({ name: 'currentDate' }, (err, doc) => {
       if (err) { return reject(err); }
       if (doc) {
-        resolve(doc.dateValue);
+        return resolve(doc.dateValue);
       }
       resolve(null);
     });
@@ -40,7 +42,10 @@ async function setCurrentDbDate(date) {
   return new Promise((resolve, reject) => {
     db.status.update(
       { name: 'currentDate' },
-      { dateValue: date },
+      {
+        name: 'currentDate',
+        dateValue: date
+      },
       { upsert: true },
       (err, doc) => {
         if (err) { return reject(err); }
@@ -50,14 +55,14 @@ async function setCurrentDbDate(date) {
   });
 }
 
-function datesEqual() {
+function getCurrentDate() {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   return today;
 }
 
-function compareDates(date1, date2) {
-  if (!(date1 || date2)) { return false; }
+function datesEqual(date1, date2) {
+  if (!date1 || !date2) { return false; }
   return date1.getTime() === date2.getTime();
 }
 

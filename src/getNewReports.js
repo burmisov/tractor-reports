@@ -57,7 +57,7 @@ export default async function getNewReports(mailIdsToSkip) {
 
     let attachments = [];
 
-    messages.forEach(function (message) {
+    newMessages.forEach(function (message) {
       debug('processing message %s', message.attributes.uid);
       const parts = imaps.getParts(message.attributes.struct);
       attachments = attachments.concat(parts.filter((part) => {
