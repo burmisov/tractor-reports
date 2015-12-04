@@ -1,7 +1,11 @@
 import db from './db';
 import getNewReports from './getNewReports';
+import fse from 'fs-extra';
+import path from 'path';
 
 const debug = require('debug')('tr:updateReports.js');
+
+const FILES_PATH = path.resolve(process.cwd(), 'data/files');
 
 export default async function updateReports() {
   debug('running updateReports');
@@ -12,9 +16,10 @@ export default async function updateReports() {
     const dbDay = await getCurrentDbDate();
     debug('today: %s, dbday: %s', today, dbDay);
     if (!datesEqual(today, dbDay)) {
-      debug('clearing processed mail ids');
+      debug('clearing processed mail ids and files');
       await setCurrentDbDate(today);
       await clearMailJournal();
+      fse.emptyDirSync(FILES_PATH);
     }
     const processedMailIds = await getProcessedMailIds();
     debug('got %s processed mail ids', processedMailIds.length);
