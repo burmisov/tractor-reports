@@ -6,9 +6,16 @@ const optionNames = [
   'imapTlsEnabled',
 ];
 
-const options = {};
-module.exports = options;
+let optionsFileData;
 
-optionNames.forEach(optName => {
-  options[optName] = process.env['TR_' + optName.toUpperCase()] || '<unset>';
-});
+try {
+  optionsFileData = require('../options.json');
+  module.exports = optionsFileData;
+} catch (e) {
+  const options = {};
+  module.exports = options;
+
+  optionNames.forEach(optName => {
+    options[optName] = process.env['TR_' + optName.toUpperCase()] || '<unset>';
+  });
+}

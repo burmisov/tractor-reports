@@ -3,6 +3,7 @@ import path from 'path';
 import db from './db';
 import mkdirp from 'mkdirp';
 import { run } from './runner';
+import iisBaseUrl from 'iis-baseurl';
 
 const FILES_PATH = path.resolve(process.cwd(), 'data/files');
 mkdirp.sync(FILES_PATH);
@@ -12,6 +13,8 @@ run();
 const debug = require('debug')('tr:index.js');
 
 const app = express();
+
+app.use(iisBaseUrl());
 
 app.get('/', (req, res) => {
   res.sendFile(path.resolve('src/index.html'));
