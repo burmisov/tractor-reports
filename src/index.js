@@ -31,7 +31,7 @@ app.get('/reports/:truckId', (req, res) => {
 });
 
 app.post('/reports/reload', (req, res) => {
-  updateReports.then(numUpdated => {
+  updateReports().then(numUpdated => {
     res.json({ numUpdated });
   }).catch(err => {
     throw err;
