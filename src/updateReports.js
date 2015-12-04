@@ -1,15 +1,21 @@
 import db from './db';
 import getNewReports from './getNewReports';
 
+const debug = require('debug')('tr:updateReports.js');
+
 export default async function updateReports() {
+  debug('running updateReports');
   try {
     const today = getCurrentDate();
     const dbDay = await getCurrentDbDate();
+    debug('today: %s, dbday: %s', today, dbDay);
     if (!datesEqual(today, dbDay)) {
+      debug('clearing processed mail ids');
       await setCurrentDbDate(today);
       await clearMailJournal();
     }
     const processedMailIds = await getProcessedMailIds();
+    debug('got %s processed mail ids', processedMailIds.length);
     const newReportCount = await getNewReports(processedMailIds);
   } catch (e) {
     throw e;

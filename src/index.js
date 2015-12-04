@@ -1,8 +1,10 @@
 import express from 'express';
 import path from 'path';
 import db from './db';
+import mkdirp from 'mkdirp';
 
 const FILES_PATH = path.resolve(process.cwd(), 'data/files');
+mkdirp.sync(FILES_PATH);
 
 const debug = require('debug')('tr:index.js');
 

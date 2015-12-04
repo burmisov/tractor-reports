@@ -2,7 +2,7 @@ import Datastore from 'nedb';
 import path from 'path';
 
 const db = {};
-export default db;
+module.exports = db;
 
 const collections = ['reports', 'mail', 'status'];
 

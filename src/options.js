@@ -7,7 +7,7 @@ const optionNames = [
 ];
 
 const options = {};
-export default options;
+module.exports = options;
 
 optionNames.forEach(optName => {
   options[optName] = process.env['TR_' + optName.toUpperCase()] || '<unset>';
