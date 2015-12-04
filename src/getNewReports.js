@@ -4,6 +4,7 @@ import options from './options';
 import path from 'path';
 import uuid from 'uuid';
 import async from 'async';
+import fs from 'fs';
 
 const debug = require('debug')('tr:getNewReports.js');
 
