@@ -36,7 +36,8 @@ export default async function getNewReports(mailIdsToSkip) {
   }).then(() => {
     const today = new Date();
     const todayISOString = today.toISOString();
-    const searchCriteria = ['UNSEEN', ['SINCE', todayISOString]];
+    // ? const searchCriteria = ['UNSEEN', ['SINCE', todayISOString]];
+    const searchCriteria = [['SINCE', todayISOString]];
     const fetchOptions = { bodies: ['HEADER.FIELDS (FROM TO SUBJECT DATE)'], struct: true };
     debug('searching for mail');
     return connection.search(searchCriteria, fetchOptions);
@@ -128,13 +129,9 @@ function storeProcessedMailIds(ids) {
     async.map(
       docs,
       (doc, done) => {
-        console.log('inserting', doc);
         db.mail.insert(doc, done);
       },
       (err) => {
-        if (err) {
-          console.log('______err!!!');
-        }
         if (err) { return reject(err); }
         resolve();
       }
