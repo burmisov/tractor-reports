@@ -2,12 +2,12 @@ import express from 'express';
 import path from 'path';
 import db from './db';
 import mkdirp from 'mkdirp';
-import runner from './runner';
+import { run } from './runner';
 
 const FILES_PATH = path.resolve(process.cwd(), 'data/files');
 mkdirp.sync(FILES_PATH);
 
-runner.run();
+run();
 
 const debug = require('debug')('tr:index.js');
 

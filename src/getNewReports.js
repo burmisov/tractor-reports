@@ -22,7 +22,7 @@ const config = {
 
 export default async function getNewReports(mailIdsToSkip) {
   if (!mailIdsToSkip) { mailIdsToSkip = []; }
-  debug('running getNewReports with %s ids to skip');
+  debug('running getNewReports with %s ids to skip', mailIdsToSkip.length);
 
   let connection;
   let newMailIds;
