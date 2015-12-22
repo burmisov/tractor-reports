@@ -24,8 +24,7 @@ app.get('/', (req, res) => {
 app.get('/reports/:truckId', (req, res) => {
   const truckName = req.params.truckId;
   db.reports.findOne({ truckName }, (err, doc) => {
-    if (err) { throw err; }
-    if (!doc) { return res.status(404).send('Нет данных'); }
+    if (err || !doc) { return res.status(404).send('Нет данных'); } // TODO
     res.download(path.resolve(FILES_PATH, doc.fileName), doc.originalName);
   });
 });
