@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "eslint ."
+    "start": "node index"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "fs-extra": "^0.26.2",
     "iis-baseurl": "0.0.6",
     "imap-simple": "^1.5.0",
+    "mkdirp": "^0.5.1",
     "nedb": "^1.5.0",
     "node-schedule": "^0.6.0",
     "uuid": "^2.0.1"
