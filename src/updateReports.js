@@ -2,6 +2,7 @@ import db from './db';
 import getNewReports from './getNewReports';
 import fse from 'fs-extra';
 import path from 'path';
+import removeUnusedFiles from './removeUnusedFiles';
 
 const debug = require('debug')('tr:updateReports.js');
 
@@ -19,7 +20,7 @@ export default async function updateReports() {
       debug('clearing processed mail ids and files');
       await setCurrentDbDate(today);
       await clearMailJournal();
-      fse.emptyDirSync(FILES_PATH);
+      await removeUnusedFiles();
     }
     const processedMailIds = await getProcessedMailIds();
     debug('got %s processed mail ids', processedMailIds.length);
