@@ -21,14 +21,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve('src/index.html'));
 });
 
-app.get('/reports/:truckId', (req, res) => {
-  const truckName = req.params.truckId;
-  db.reports.findOne({ truckName }, (err, doc) => {
-    if (err || !doc) { return res.status(404).send('Нет данных'); } // TODO
-    res.download(path.resolve(FILES_PATH, doc.fileName), doc.originalName);
-  });
-});
-
 app.post('/reports/reload', (req, res) => {
   updateReports().then(numUpdated => {
     res.json({ numUpdated });
@@ -37,10 +29,18 @@ app.post('/reports/reload', (req, res) => {
   });
 });
 
-app.get('/reports/all', (req, res) => {
+app.get('/reports/_all', (req, res) => {
   db.reports.find({}, (err, docs) => {
     if (err) { throw err; }
     res.json(docs);
+  });
+});
+
+app.get('/reports/:truckId', (req, res) => {
+  const truckName = req.params.truckId;
+  db.reports.findOne({ truckName }, (err, doc) => {
+    if (err || !doc) { return res.status(404).send('Нет данных'); } // TODO
+    res.download(path.resolve(FILES_PATH, doc.fileName), doc.originalName);
   });
 });
 
