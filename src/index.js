@@ -37,6 +37,13 @@ app.post('/reports/reload', (req, res) => {
   });
 });
 
+app.get('/reports/all', (req, res) => {
+  db.reports.find({}, (err, docs) => {
+    if (err) { throw err; }
+    res.json(docs);
+  });
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port);
